@@ -10,7 +10,8 @@
 #SBATCH --mail-user=qxlin@rcc.uchicago.edu
 #SBATCH --account=macs30123
 
-module load python mpich
+module load python
+module load mpi
 
 # Compile the health_index_simulation module if not already compiled
 # python compile_health_index.py

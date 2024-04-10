@@ -1,0 +1,3 @@
+In comparing the parallel PyOpenCL GPU implementation to the original serial CPU counterpart, it's observed that for small-scale computational tasks, the GPU version incurs longer execution times primarily due to the overhead of data transfer between the CPU and GPU.
+This inefficiency arises because the time spent transferring data to and from the GPU, coupled with initialization and kernel launch overheads, outweighs the actual computation time for minor tasks. 
+A critical bottleneck in this process is the bandwidth limitation for data transfer, which becomes particularly pronounced when the computational load is insufficient to justify the parallel processing capabilities of the GPU.
