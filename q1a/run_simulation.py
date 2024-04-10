@@ -9,8 +9,7 @@ mu = 3.0
 sigma = 1.0
 z_0 = mu
 
-# Set simulation parameters, draw all idiosyncratic random shocks,
-# and create empty containers
+# Set simulation parameters, draw all idiosyncratic random shocks, and create empty containers
 S = 1000 # Set the number of lives to simulate
 T = int(4160) # Set the number of periods for each simulatio
 np.random.seed(25)

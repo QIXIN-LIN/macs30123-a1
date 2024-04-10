@@ -24,6 +24,6 @@ end_time = time.time()
 execution_time = end_time - start_time
 print(f"NDVI computation without GPU took {execution_time} seconds")
 
-# Optionally, save the NDVI image using matplotlib
+# Save the NDVI image using matplotlib
 import matplotlib.pyplot as plt
 plt.imsave('ndvi_image_cpu.png', ndvi)

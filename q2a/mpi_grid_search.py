@@ -2,6 +2,7 @@ from mpi4py import MPI
 import numpy as np
 import scipy.stats as sts
 from health_index_sim import simulate_individual_health_index
+import time
 
 def main():
     comm = MPI.COMM_WORLD
@@ -32,7 +33,7 @@ def main():
     avg_periods_subrange = np.zeros(len(rho_subrange))
 
     # Start timing the grid search
-    start_time = MPI.Wtime()
+    start_time = time.time()
 
     # Perform the grid search
     for i, rho in enumerate(rho_subrange):
@@ -49,7 +50,7 @@ def main():
     comm.Gather(avg_periods_subrange, all_avg_periods, root=0)
 
     # End timing the grid search
-    end_time = MPI.Wtime()
+    end_time = time.time()
 
     # Compute the total time taken for the grid search
     total_time = end_time - start_time

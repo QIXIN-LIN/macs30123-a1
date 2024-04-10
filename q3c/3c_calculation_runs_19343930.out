@@ -1,0 +1,15 @@
+Processing equivalent of 50 Landsat scenes
+Serial NDVI computation took 0.9500167369842529 seconds
+Parallel NDVI computation with GPU took 0.9027664661407471 seconds
+Maximum absolute difference between parallel and serial NDVI: 0.0
+Parallel and serial NDVI calculations are equivalent within the specified tolerance.
+Processing equivalent of 100 Landsat scenes
+Serial NDVI computation took 1.8979430198669434 seconds
+Parallel NDVI computation with GPU took 1.7608985900878906 seconds
+Maximum absolute difference between parallel and serial NDVI: 0.0
+Parallel and serial NDVI calculations are equivalent within the specified tolerance.
+Processing equivalent of 150 Landsat scenes
+Serial NDVI computation took 2.8470382690429688 seconds
+Parallel NDVI computation with GPU took 2.6472926139831543 seconds
+Maximum absolute difference between parallel and serial NDVI: 0.0
+Parallel and serial NDVI calculations are equivalent within the specified tolerance.

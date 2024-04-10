@@ -1,0 +1,2 @@
+NDVI computation without GPU took 0.15087580680847168 seconds
+NDVI computation with GPU took 0.48467254638671875 seconds

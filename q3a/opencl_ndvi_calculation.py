@@ -1,58 +1,54 @@
 import numpy as np
-import rasterio
 import pyopencl as cl
 import pyopencl.array
+import rasterio
 import time
 
-def compute_ndvi(red_band_path, nir_band_path):
-    # Read the bands using rasterio
-    with rasterio.open(red_band_path) as red_band, rasterio.open(nir_band_path) as nir_band:
-        red = red_band.read(1).astype('float32')
-        nir = nir_band.read(1).astype('float32')
-
-    # Set up PyOpenCL context and queue
-    context = cl.create_some_context()
-    queue = cl.CommandQueue(context)
-
-    # Transfer arrays to the GPU
-    mf = cl.mem_flags
-    red_cl = cl.array.to_device(queue, red)
-    nir_cl = cl.array.to_device(queue, nir)
-
-    # Prepare output array
-    ndvi_cl = cl.array.empty_like(red_cl)
-
-    # NDVI computation kernel
-    kernel = """
-    __kernel void compute_ndvi(__global const float *red, __global const float *nir, __global float *ndvi) {
-        int i = get_global_id(0);
-        float red_val = red[i];
-        float nir_val = nir[i];
-        float ndvi_val = (nir_val - red_val) / (nir_val + red_val);
-        ndvi[i] = ndvi_val;
-    }
-    """
-
-    # Build and execute the kernel
-    prg = cl.Program(context, kernel).build()
-    prg.compute_ndvi(queue, red.shape, None, red_cl.data, nir_cl.data, ndvi_cl.data)
-    queue.finish()
-
-    # Read back the result
-    ndvi = ndvi_cl.get()
-    return ndvi
-
-# Path to the Landsat bands
-red_band_path = '/project2/macs30123/landsat8/LC08_B4.tif'
-nir_band_path = '/project2/macs30123/landsat8/LC08_B5.tif'
-
-# Time the NDVI computation
+# Start timing
 start_time = time.time()
-ndvi = compute_ndvi(red_band_path, nir_band_path)
+
+# Setup OpenCL context and command queue
+platform = cl.get_platforms()[0]  # Select the first platform
+device = platform.get_devices()[0]  # Select the first device on the platform
+context = cl.Context([device])  # Create a context for the selected device
+queue = cl.CommandQueue(context)  # Create a command queue for the selected device
+
+# Import bands as separate images; in /project2/macs30123 on Midway2
+band4 = rasterio.open('/project2/macs30123/landsat8/LC08_B4.tif')  # red
+band5 = rasterio.open('/project2/macs30123/landsat8/LC08_B5.tif')  # nir
+
+# Convert nir and red objects to float64 arrays
+red = band4.read(1).astype('float64')
+nir = band5.read(1).astype('float64')
+
+# Transfer arrays to device memory
+red_dev = cl.array.to_device(queue, red)
+nir_dev = cl.array.to_device(queue, nir)
+
+# NDVI calculation using ElementwiseKernel
+ndvi_kernel = cl.elementwise.ElementwiseKernel(
+    context,
+    "double *nir, double *red, double *ndvi",
+    "ndvi[i] = (nir[i] - red[i]) / (nir[i] + red[i])",
+    "ndvi_kernel"
+)
+
+# Allocate memory for the result
+ndvi_dev = cl.array.empty_like(red_dev)
+
+# Execute the kernel
+ndvi_kernel(nir_dev, red_dev, ndvi_dev)
+
+# Copy result from device to host
+ndvi = ndvi_dev.get()
+
+# End timing
 end_time = time.time()
 
-print(f"NDVI computation with GPU took {end_time - start_time} seconds.")
+# Calculate and print the execution time
+execution_time = end_time - start_time
+print(f"NDVI computation with GPU took {execution_time} seconds")
 
-# Optionally, save the NDVI image using matplotlib
+# Save the NDVI image using matplotlib
 import matplotlib.pyplot as plt
 plt.imsave('ndvi_image_gpu.png', ndvi)

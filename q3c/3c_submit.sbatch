@@ -14,5 +14,4 @@
 
 module load python cuda
 
-python3 tile_ndvi_calculation.py
-python3 tile_opencl_ndvi_calculation.py
+python3 tile_calculation.py
