@@ -8,12 +8,13 @@ import matplotlib.pyplot as plt
 # Setup OpenCL context and command queue
 platform = cl.get_platforms()[0]  # Select the first platform
 device = platform.get_devices()[0]  # Select the first device on the platform
-context = cl.Context([device])  # Create a context for the selected device
-queue = cl.CommandQueue(context)  # Create a command queue for the selected device
+context = cl.Context([device])
+queue = cl.CommandQueue(context)
 
 # Import bands as separate images
 band4 = rasterio.open('/project2/macs30123/landsat8/LC08_B4.tif')  # red
 band5 = rasterio.open('/project2/macs30123/landsat8/LC08_B5.tif')  # nir
+
 
 # Function to calculate NDVI in parallel using OpenCL
 def calculate_ndvi_parallel(red, nir, queue, context):
@@ -34,10 +35,12 @@ def calculate_ndvi_parallel(red, nir, queue, context):
     ndvi = ndvi_dev.get()
     return ndvi
 
+
 # Function to calculate NDVI serially
 def calculate_ndvi_serial(red, nir):
     ndvi = (nir - red) / (nir + red)
     return ndvi
+
 
 def validate_ndvi(ndvi_parallel, ndvi_serial, tolerance=1e-6):
     """
@@ -47,6 +50,7 @@ def validate_ndvi(ndvi_parallel, ndvi_serial, tolerance=1e-6):
     max_diff = np.max(diff)
     print(f"Maximum absolute difference between parallel and serial NDVI: {max_diff}")
     return max_diff <= tolerance
+
 
 # Data sizes to simulate
 data_sizes = [50, 100, 150]

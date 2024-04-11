@@ -15,24 +15,24 @@ mu = 3.0
 sigma = 1.0
 z_0 = mu
 
-# Set simulation parameters, draw all idiosyncratic random shocks, and create empty containers
+# Set simulation parameters and draw all idiosyncratic random shocks
 S = 1000 // size  # Divide the work among processes
 T = int(4160)  # Set the number of periods for each simulation
 
 # Ensure each core gets different random numbers
 np.random.seed(rank)
 eps_mat = sts.norm.rvs(loc=0, scale=sigma, size=(T, S))
+
+# Create empty containers
 z_mat = np.zeros((T, S))
 
 # Start timing
-#start_time = MPI.Wtime()
 start_time = time.time()
 
 # Run the compiled simulation
 z_mat = simulate_health_index(rho, mu, sigma, z_0, eps_mat)
 
 # End timing
-#end_time = MPI.Wtime()
 end_time = time.time()
 elapsed_time = end_time - start_time
 

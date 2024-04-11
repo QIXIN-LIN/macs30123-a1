@@ -3,6 +3,7 @@ import pyopencl as cl
 import pyopencl.array
 import rasterio
 import time
+import matplotlib.pyplot as plt
 
 # Start timing
 start_time = time.time()
@@ -10,10 +11,10 @@ start_time = time.time()
 # Setup OpenCL context and command queue
 platform = cl.get_platforms()[0]  # Select the first platform
 device = platform.get_devices()[0]  # Select the first device on the platform
-context = cl.Context([device])  # Create a context for the selected device
-queue = cl.CommandQueue(context)  # Create a command queue for the selected device
+context = cl.Context([device])
+queue = cl.CommandQueue(context)
 
-# Import bands as separate images; in /project2/macs30123 on Midway2
+# Import bands as separate images
 band4 = rasterio.open('/project2/macs30123/landsat8/LC08_B4.tif')  # red
 band5 = rasterio.open('/project2/macs30123/landsat8/LC08_B5.tif')  # nir
 
@@ -50,5 +51,4 @@ execution_time = end_time - start_time
 print(f"NDVI computation with GPU took {execution_time} seconds")
 
 # Save the NDVI image using matplotlib
-import matplotlib.pyplot as plt
 plt.imsave('ndvi_image_gpu.png', ndvi)

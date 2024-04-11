@@ -14,5 +14,7 @@
 
 module load python cuda
 
+cd /home/qxlin/a1-QIXIN-ACT/q3a
+
 python3 ndvi_calculation.py
 python3 opencl_ndvi_calculation.py

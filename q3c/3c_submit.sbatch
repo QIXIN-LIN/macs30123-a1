@@ -14,4 +14,6 @@
 
 module load python cuda
 
+cd /home/qxlin/a1-QIXIN-ACT/q3c
+
 python3 tile_calculation.py

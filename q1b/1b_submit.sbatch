@@ -12,8 +12,10 @@
 
 module load python mpich
 
-# Compile the health_index_simulation module if not already compiled
-# python compile_health_index.py
+cd /home/qxlin/a1-QIXIN-ACT/q1b
+
+# Compile the health_index_simulation module
+python compile_health_index.py
 
 # Loop to run the simulations with increasing core counts
 for i in {1..20}

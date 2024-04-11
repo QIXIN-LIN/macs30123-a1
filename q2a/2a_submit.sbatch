@@ -14,5 +14,5 @@ module load python mpich
 
 cd /home/qxlin/a1-QIXIN-ACT/q2a
 
-python health_simulation.py
+python compile_health_simulation.py
 mpirun -np $SLURM_NTASKS python mpi_grid_search.py

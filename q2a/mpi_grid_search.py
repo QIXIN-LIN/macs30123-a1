@@ -68,5 +68,6 @@ def main():
         # Save the results to a file
         np.savetxt("rho_vs_periods.csv", np.column_stack((rho_values, all_avg_periods)), delimiter=",", header="rho,avg_periods", comments="")
 
+
 if __name__ == "__main__":
     main()

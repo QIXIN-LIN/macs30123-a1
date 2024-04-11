@@ -2,11 +2,12 @@
 import rasterio
 import numpy as np
 import time
+import matplotlib.pyplot as plt
 
 # Start timing
 start_time = time.time()
 
-# Import bands as separate images; in /project2/macs30123 on Midway2
+# Import bands as separate images
 band4 = rasterio.open('/project2/macs30123/landsat8/LC08_B4.tif') #red
 band5 = rasterio.open('/project2/macs30123/landsat8/LC08_B5.tif') #nir
 
@@ -25,5 +26,4 @@ execution_time = end_time - start_time
 print(f"NDVI computation without GPU took {execution_time} seconds")
 
 # Save the NDVI image using matplotlib
-import matplotlib.pyplot as plt
 plt.imsave('ndvi_image_cpu.png', ndvi)

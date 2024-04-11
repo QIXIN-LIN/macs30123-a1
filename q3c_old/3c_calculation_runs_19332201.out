@@ -1,6 +1,0 @@
-NDVI computation without GPU took 0.9629590511322021 seconds for a scale factor of 50.
-NDVI computation without GPU took 1.9274115562438965 seconds for a scale factor of 100.
-NDVI computation without GPU took 2.888669013977051 seconds for a scale factor of 150.
-NDVI computation with GPU took 0.9585440158843994 seconds for a scale factor of 50.
-NDVI computation with GPU took 1.1431543827056885 seconds for a scale factor of 100.
-NDVI computation with GPU took 1.5423390865325928 seconds for a scale factor of 150.

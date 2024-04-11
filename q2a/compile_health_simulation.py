@@ -12,5 +12,6 @@ def simulate_individual_health_index(rho, mu, sigma, z_0, epsilons):
             return t  # Return the time period when zt falls to or below zero
     return T  # If zt never falls to or below zero, return the last time period
 
+
 if __name__ == "__main__":
     cc.compile()
